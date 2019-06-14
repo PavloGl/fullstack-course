@@ -11,6 +11,16 @@ const VoteInfo = ({counter}) => {
   return <div>has {counter} votes</div>
 }
 
+const CurrentAnecdoteHeader = () => <h1>Anecdote of the day</h1>
+
+const MostVotesAnecdoteHeader = () => <h1>Anecdote with most votes</h1>
+
+const MostVotedAnecdote = ({anecdotes, votes}) => <div>{obtainMostVotedAnecdote(anecdotes,votes)}</div>
+
+const obtainMostVotedAnecdote = (anecdotes, votes) => {
+  return anecdotes[votes.findIndex(x => x === Math.max(...votes))]
+}
+
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -30,6 +40,8 @@ const App = (props) => {
   return (
     <>
       <div>
+        <CurrentAnecdoteHeader />
+
         {props.anecdotes[selected]}
 
         <VoteInfo counter={votes[selected]} />
@@ -41,7 +53,11 @@ const App = (props) => {
         <Button handleClick={() => {
           setSelected(getRandomInt(props.anecdotes.length))}
           } text="next anecdote"/>
-        </div>
+
+        <MostVotesAnecdoteHeader />
+
+        <MostVotedAnecdote anecdotes={props.anecdotes} votes={votes}/>
+      </div>
     </>
   )
 }
