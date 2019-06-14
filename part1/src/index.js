@@ -11,7 +11,19 @@ const Button = (props) => (
 
 const StatisticHeader = () => <h1>statistics</h1>
 
-const ShowResult = (props) => <div>{props.text} {props.good}</div>
+const ShowBasic = (props) => <div>{props.text} {props.good}</div>
+
+const sum = (items) => items.reduce((a, b) => (a + b), 0)
+
+const ShowTotal = ({items}) => <div>all {sum(items)} </div>
+
+const ShowAverage = ({items}) => <div>average {sum(items) / items.length} </div>
+
+const ShowPositivePercentage = ({items}) => {
+  if(items[0] === 0)
+    return <div>positive 0%</div>
+  return <div>positive {items[0]/sum(items)}% </div>
+}
 
 const App = () => {
   // save clicks of each button to own state
@@ -26,9 +38,12 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
       <Button handleClick={() => setBad(bad + 1)} text="bad" />
       <StatisticHeader />
-      <ShowResult text={"good"} good={good} />
-      <ShowResult text={"neutral"} good={neutral} />
-      <ShowResult text={"bad"} good={bad} />
+      <ShowBasic text={"good"} good={good} />
+      <ShowBasic text={"neutral"} good={neutral} />
+      <ShowBasic text={"bad"} good={bad} />
+      <ShowTotal items={[good, neutral, bad]} />
+      <ShowAverage items={[good, neutral, bad]} />
+      <ShowPositivePercentage items={[good, neutral, bad]} />
     </div>
   )
 }
