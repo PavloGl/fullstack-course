@@ -25,6 +25,21 @@ const ShowPositivePercentage = ({items}) => {
   return <div>positive {items[0]/sum(items)}% </div>
 }
 
+const Statistics = ({items}) => {
+  const [good, neutral, bad] = items
+  return (
+    <>
+      <StatisticHeader />
+      <ShowBasic text={"good"} good={good} />
+      <ShowBasic text={"neutral"} good={neutral} />
+      <ShowBasic text={"bad"} good={bad} />
+      <ShowTotal items={[good, neutral, bad]} />
+      <ShowAverage items={[good, neutral, bad]} />
+      <ShowPositivePercentage items={[good, neutral, bad]} />
+    </>
+  )
+}
+
 const App = () => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
@@ -37,13 +52,7 @@ const App = () => {
       <Button handleClick={() => setGood(good + 1)} text="good" />
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
       <Button handleClick={() => setBad(bad + 1)} text="bad" />
-      <StatisticHeader />
-      <ShowBasic text={"good"} good={good} />
-      <ShowBasic text={"neutral"} good={neutral} />
-      <ShowBasic text={"bad"} good={bad} />
-      <ShowTotal items={[good, neutral, bad]} />
-      <ShowAverage items={[good, neutral, bad]} />
-      <ShowPositivePercentage items={[good, neutral, bad]} />
+      <Statistics items={[good, neutral, bad]}/>
     </div>
   )
 }
