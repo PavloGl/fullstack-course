@@ -27,6 +27,14 @@ const ShowPositivePercentage = ({items}) => {
 
 const Statistics = ({items}) => {
   const [good, neutral, bad] = items
+  if(sum(items) ===0)
+    return (
+      <>
+        <StatisticHeader />
+        <div>No feedback given</div>
+      </>
+    )
+
   return (
     <>
       <StatisticHeader />
