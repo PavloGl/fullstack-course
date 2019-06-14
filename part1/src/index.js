@@ -11,18 +11,18 @@ const Button = (props) => (
 
 const StatisticHeader = () => <h1>statistics</h1>
 
-const ShowBasic = (props) => <div>{props.text} {props.good}</div>
+const ShowBasic = (props) => <tr><td>{props.text} {props.good}</td></tr>
 
 const sum = (items) => items.reduce((a, b) => (a + b), 0)
 
-const ShowTotal = ({items}) => <div>all {sum(items)} </div>
+const ShowTotal = ({items}) => <tr><td>all {sum(items)} </td></tr>
 
-const ShowAverage = ({items}) => <div>average {sum(items) / items.length} </div>
+const ShowAverage = ({items}) => <tr><td>average {sum(items) / items.length} </td></tr>
 
 const ShowPositivePercentage = ({items}) => {
   if(items[0] === 0)
-    return <div>positive 0%</div>
-  return <div>positive {items[0]/sum(items)}% </div>
+    return <tr><td>positive 0%</td></tr>
+  return <tr><td>positive {items[0]/sum(items)}% </td></tr>
 }
 
 const Statistics = ({items}) => {
@@ -37,13 +37,18 @@ const Statistics = ({items}) => {
 
   return (
     <>
-      <StatisticHeader />
-      <ShowBasic text={"good"} good={good} />
-      <ShowBasic text={"neutral"} good={neutral} />
-      <ShowBasic text={"bad"} good={bad} />
-      <ShowTotal items={[good, neutral, bad]} />
-      <ShowAverage items={[good, neutral, bad]} />
-      <ShowPositivePercentage items={[good, neutral, bad]} />
+
+        <StatisticHeader />
+      <table>
+        <tbody>
+          <ShowBasic text={"good"} good={good} />
+          <ShowBasic text={"neutral"} good={neutral} />
+          <ShowBasic text={"bad"} good={bad} />
+          <ShowTotal items={[good, neutral, bad]} />
+          <ShowAverage items={[good, neutral, bad]} />
+          <ShowPositivePercentage items={[good, neutral, bad]} />
+        </tbody>
+      </table>
     </>
   )
 }
