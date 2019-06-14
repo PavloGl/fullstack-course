@@ -7,21 +7,41 @@ const Button = (props) => (
   </button>
 )
 
+const VoteInfo = ({counter}) => {
+  return <div>has {counter} votes</div>
+}
+
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+const incrementVotes = (pos, arr) => {
+  const result = [...arr]
+  ++result[pos]
+  return result
+}
+
+const prepareArray = (length) =>  new Array(length).fill(0)
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(prepareArray(props.anecdotes.length))
 
   return (
     <>
       <div>
         {props.anecdotes[selected]}
-      </div>
-      <Button handleClick={() => {
-        setSelected(getRandomInt(props.anecdotes.length))}
-        } text="next anecdote"/>
+
+        <VoteInfo counter={votes[selected]} />
+
+        <Button handleClick={() => {
+          setVotes(incrementVotes(selected, votes))}
+          } text="vote"/>
+
+        <Button handleClick={() => {
+          setSelected(getRandomInt(props.anecdotes.length))}
+          } text="next anecdote"/>
+        </div>
     </>
   )
 }
