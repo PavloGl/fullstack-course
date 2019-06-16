@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Contacts from './components/Contacts'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
 
 const uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -19,6 +21,16 @@ const App = () => {
       name: 'Artor Hellars',
       number: 123345,
       id: '4rrfb801-47aa-4c8a-bc8c-dc59699933rr'
+    },
+    {
+      name: 'Parov Stelar',
+      number: 78987987,
+      id: 'ae845077-3417-4429-bb2b-c7d74037b7cd'
+    },
+    {
+      name: 'Dante Alighieri',
+      number: 66666666,
+      id: '00d1a544-2806-4157-91b1-8920aac10771'
     }
   ])
   const [newName, setNewName] = useState('')
@@ -69,26 +81,15 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <input value={newSearch}
-        onChange={handleSearch} />
+      <Filter newSearch={newSearch} handleSearch={handleSearch} />
       <h2>Add new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name:
-          <input
-            value={newName}
-            onChange={handlePersonChange} />
-        </div>
-        <div>
-          number:
-          <input
-            value={newNumber}
-            onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        handlePersonChange={handlePersonChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
       <h2>Numbers</h2>
       <Contacts contacts={searchToShow} />
     </div>
