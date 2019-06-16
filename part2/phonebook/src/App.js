@@ -2,23 +2,34 @@ import React, { useState } from 'react'
 import Contacts from './components/Contacts'
 
 const uuidv4 = () => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0, v = c === 'x' ? r : ((r & 0x3) | 0x8);
-    return v.toString(16);
-  });
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = Math.random() * 16 | 0, v = c === 'x' ? r : ((r & 0x3) | 0x8)
+    return v.toString(16)
+  })
 }
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' ,
-      id: '4eefb801-47aa-4c8a-bc8c-dc59699933ee'},
-      { name: 'Artor Hellars' ,
-      id: '4rrfb801-47aa-4c8a-bc8c-dc59699933rr'}
+  const [persons, setPersons] = useState([
+    {
+      name: 'Arto Hellas',
+      id: '4eefb801-47aa-4c8a-bc8c-dc59699933ee'
+    },
+    {
+      name: 'Artor Hellars',
+      id: '4rrfb801-47aa-4c8a-bc8c-dc59699933rr'
+    }
   ])
-  const [ newName, setNewName ] = useState('')
+  const [newName, setNewName] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
+
+    if (validateName() !== undefined) {
+      alert(`${newName} is already added to phonebook`)
+      setNewName('')
+      return
+    }
+
     const personObject = {
       name: newName,
       id: uuidv4()
@@ -31,6 +42,9 @@ const App = () => {
   const handlePersonChange = (event) => {
     setNewName(event.target.value)
   }
+
+  const validateName = () => persons.find(p => p.name === newName)
+
 
   return (
     <div>
