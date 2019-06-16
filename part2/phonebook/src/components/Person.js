@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Person = ({ name }) =>
-    <li>{name}</li>
+const Person = ({ person: {name, number} }) =>
+    <li>{name} {number}</li>
 
 export default Person

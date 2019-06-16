@@ -12,14 +12,17 @@ const App = () => {
   const [persons, setPersons] = useState([
     {
       name: 'Arto Hellas',
+      number: 32133213,
       id: '4eefb801-47aa-4c8a-bc8c-dc59699933ee'
     },
     {
       name: 'Artor Hellars',
+      number: 123345,
       id: '4rrfb801-47aa-4c8a-bc8c-dc59699933rr'
     }
   ])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -27,20 +30,27 @@ const App = () => {
     if (validateName() !== undefined) {
       alert(`${newName} is already added to phonebook`)
       setNewName('')
+      setNewNumber('')
       return
     }
 
     const personObject = {
       name: newName,
+      number: newNumber,
       id: uuidv4()
     }
 
     setPersons(persons.concat(personObject))
     setNewName('')
+    setNewNumber('')
   }
 
   const handlePersonChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   const validateName = () => persons.find(p => p.name === newName)
@@ -55,6 +65,12 @@ const App = () => {
           <input
             value={newName}
             onChange={handlePersonChange} />
+        </div>
+        <div>
+          number:
+          <input
+            value={newNumber}
+            onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>

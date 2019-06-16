@@ -11,7 +11,7 @@ const Contacts = ({ contacts }) => {
   const personList = () => contacts.map(person =>
     <Person
       key={person.id}
-      name={person.name}
+      person={person}
     />
   )
 
