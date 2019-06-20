@@ -15,19 +15,19 @@ const ShowBasic = (props) => <tr><td>{props.text} {props.good}</td></tr>
 
 const sum = (items) => items.reduce((a, b) => (a + b), 0)
 
-const ShowTotal = ({items}) => <tr><td>all {sum(items)} </td></tr>
+const ShowTotal = ({ items }) => <tr><td>all {sum(items)} </td></tr>
 
-const ShowAverage = ({items}) => <tr><td>average {sum(items) / items.length} </td></tr>
+const ShowAverage = ({ items }) => <tr><td>average {sum(items) / items.length} </td></tr>
 
-const ShowPositivePercentage = ({items}) => {
-  if(items[0] === 0)
+const ShowPositivePercentage = ({ items }) => {
+  if (items[0] === 0)
     return <tr><td>positive 0%</td></tr>
-  return <tr><td>positive {items[0]/sum(items)}% </td></tr>
+  return <tr><td>positive {items[0] / sum(items)}% </td></tr>
 }
 
-const Statistics = ({items}) => {
+const Statistics = ({ items }) => {
   const [good, neutral, bad] = items
-  if(sum(items) ===0)
+  if (sum(items) === 0)
     return (
       <>
         <StatisticHeader />
@@ -37,8 +37,7 @@ const Statistics = ({items}) => {
 
   return (
     <>
-
-        <StatisticHeader />
+      <StatisticHeader />
       <table>
         <tbody>
           <ShowBasic text={"good"} good={good} />
@@ -65,7 +64,7 @@ const App = () => {
       <Button handleClick={() => setGood(good + 1)} text="good" />
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
       <Button handleClick={() => setBad(bad + 1)} text="bad" />
-      <Statistics items={[good, neutral, bad]}/>
+      <Statistics items={[good, neutral, bad]} />
     </div>
   )
 }
