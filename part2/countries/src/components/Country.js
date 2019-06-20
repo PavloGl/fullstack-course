@@ -1,8 +1,20 @@
 import React from 'react'
 
-const Country = ({ country }) => {
+const Button = (props) => (
+  <button onClick={props.handleClick}>
+    {props.text}
+  </button>
+)
+
+const Country = ({ country, kid, setDetailInfo }) => {
+
   return (
-    <li>{country.name}</li>
+    <li>
+      {country.name}
+      <Button
+        text='show'
+        handleClick={() => setDetailInfo(kid)} />
+    </li>
   )
 }
 

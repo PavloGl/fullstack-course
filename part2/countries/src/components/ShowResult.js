@@ -2,7 +2,7 @@ import React from 'react'
 import Country from './Country'
 import CountryInfo from './CountryInfo'
 
-const ShowResult = ({ search, countries }) => {
+const ShowResult = ({ search, countries, detailInfo, setDetailInfo }) => {
 
   const searchResult = () =>
     countries.filter(country =>
@@ -11,6 +11,12 @@ const ShowResult = ({ search, countries }) => {
 
 
   const sum = (result) => result.reduce((a) => a + 1, 0)
+
+  const checkInfo = () => {
+    if (detailInfo === '') return
+
+    return <CountryInfo country={countries.filter(a => a.alpha3Code === detailInfo)} />
+  }
 
   const showResult = () => {
     const result = searchResult()
@@ -36,12 +42,21 @@ const ShowResult = ({ search, countries }) => {
       )
     }
 
-    return <ul>{result.map(res =>
-      <Country
-        key={res.alpha3Code}
-        country={res}
-      />
-    )}</ul>
+    return (
+      <>
+        <ul>
+          {result.map((res) =>
+            <Country
+              key={res.alpha3Code}
+              country={res}
+              setDetailInfo={setDetailInfo}
+              kid={res.alpha3Code}
+            />
+          )}
+        </ul>
+        {checkInfo()}
+      </>
+    )
   }
 
   return (

@@ -6,6 +6,7 @@ import ShowResult from './components/ShowResult'
 function App() {
   const [search, setSearch] = useState('')
   const [countries, setCountries] = useState([])
+  const [detailInfo, setDetailInfo] = useState('')
 
   useEffect(() => {
     axios
@@ -17,6 +18,7 @@ function App() {
 
   const handleSearch = (event) => {
     setSearch(event.target.value)
+    setDetailInfo('')
   }
 
   return (
@@ -24,7 +26,11 @@ function App() {
       <Search
         search={search}
         handleSearch={handleSearch} />
-      <ShowResult search={search} countries={countries} />
+      <ShowResult
+        search={search}
+        countries={countries}
+        detailInfo={detailInfo}
+        setDetailInfo={setDetailInfo} />
     </div>
   );
 }

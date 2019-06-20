@@ -3,7 +3,7 @@ import Languages from './Languages'
 
 const CountryInfo = ({ country }) => {
 
-  const [countryInfo, ] = country
+  const [countryInfo,] = country
 
   return (
     <>
