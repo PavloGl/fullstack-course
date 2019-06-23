@@ -1,5 +1,6 @@
 import React from 'react'
 import Languages from './Languages'
+import Weather from './Weather'
 
 const CountryInfo = ({ country }) => {
 
@@ -14,6 +15,7 @@ const CountryInfo = ({ country }) => {
       <Languages
         languages={countryInfo.languages} />
       <img style={imgStyle} src={countryInfo.flag} alt="flag" />
+      <Weather country={countryInfo.name} />
     </>
   )
 }
