@@ -1,8 +1,8 @@
-import React, { useState, useEffect} from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 import Contacts from './components/Contacts'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import contactService from './services/contactService'
 
 const uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -12,39 +12,16 @@ const uuidv4 = () => {
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    // {
-    //   name: 'Arto Hellas',
-    //   number: 32133213,
-    //   id: '4eefb801-47aa-4c8a-bc8c-dc59699933ee'
-    // },
-    // {
-    //   name: 'Artor Hellars',
-    //   number: 123345,
-    //   id: '4rrfb801-47aa-4c8a-bc8c-dc59699933rr'
-    // },
-    // {
-    //   name: 'Parov Stelar',
-    //   number: 78987987,
-    //   id: 'ae845077-3417-4429-bb2b-c7d74037b7cd'
-    // },
-    // {
-    //   name: 'Dante Alighieri',
-    //   number: 66666666,
-    //   id: '00d1a544-2806-4157-91b1-8920aac10771'
-    // }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then( response => {
-        console.log(response.data)
-        setPersons(response.data)
+    contactService
+      .getAll()
+      .then(response => {
+        setPersons(response)
       })
   }, [])
 
@@ -64,9 +41,16 @@ const App = () => {
       id: uuidv4()
     }
 
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+    contactService
+      .create(personObject)
+      .then(response => {
+        setPersons(persons.concat(response))
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch(err => {
+        console.log('fail')
+      })
   }
 
   const handlePersonChange = (event) => {
