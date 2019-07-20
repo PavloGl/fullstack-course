@@ -8,12 +8,14 @@ const listStyle = {
 
 const sum = (el) => el.reduce((a) => a + 1, 0)
 
-const Contacts = ({ contacts }) => {
+const Contacts = ({ contacts, removeContacts }) => {
 
   const personList = () => contacts.map(person =>
     <Person
       key={person.id}
       person={person}
+      id={person.id}
+      removeContacts={removeContacts}
     />
   )
 

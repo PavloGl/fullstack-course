@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Contacts from './components/Contacts'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
-import contactService from './services/contactService'
+import contactService from './services/contact'
 
 const uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -49,8 +49,29 @@ const App = () => {
         setNewNumber('')
       })
       .catch(err => {
-        console.log('fail')
+        console.error('Error on adding contact')
       })
+  }
+
+  const removeContacts = (event) => {
+    const message = `Are you sure that u want delete ${event} contact?`
+    const deleteContact = window.confirm(message)
+
+    if (deleteContact) {
+      const [contact]  = getContactId(event)
+      const {id} = contact
+
+      contactService
+        .remove(id)
+        .then(response => {
+          setPersons(persons
+            .filter(person => person.name !== event)
+          )
+        })
+        .catch(err => {
+          console.error('Error on removing contact')
+        })
+    }
   }
 
   const handlePersonChange = (event) => {
@@ -72,6 +93,10 @@ const App = () => {
 
   const validateName = () => persons.find(p => p.name === newName)
 
+  const getContactId = (name) => {
+    return persons
+      .filter(person => person.name === name)
+  }
 
   return (
     <div>
@@ -86,7 +111,10 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Contacts contacts={searchToShow} />
+      <Contacts
+        contacts={searchToShow}
+        removeContacts={removeContacts}
+      />
     </div>
   )
 }
