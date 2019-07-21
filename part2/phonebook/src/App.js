@@ -3,6 +3,8 @@ import Contacts from './components/Contacts'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import contactService from './services/contact'
+import ErrorNotification from './components/ErrorNotification'
+import NewNotification from './components/NewNotification'
 
 const uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -16,6 +18,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
+  const [errorNotification, setNewErrorNotification] = useState(null)
+  const [notification, setNewNotification] = useState(null)
 
   useEffect(() => {
     contactService
@@ -50,6 +54,13 @@ const App = () => {
       .catch(err => {
         console.error('Error on adding contact')
       })
+
+    setNewNotification(
+      `Note '${newName}' was added to contacts`
+    )
+    setTimeout(() => {
+      setNewNotification(null)
+    }, 5000)
   }
 
   const removeContacts = (event) => {
@@ -69,6 +80,12 @@ const App = () => {
         })
         .catch(err => {
           console.error('Error on removing contact')
+          setNewErrorNotification(
+            `Note '${event}' was already removed from server`
+          )
+          setTimeout(() => {
+            setNewErrorNotification(null)
+          }, 5000)
         })
 
       setNewName('')
@@ -144,6 +161,10 @@ const App = () => {
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
       />
+
+      <ErrorNotification message={errorNotification} />
+      <NewNotification message={notification} />
+
       <h2>Numbers</h2>
       <Contacts
         contacts={searchToShow}
