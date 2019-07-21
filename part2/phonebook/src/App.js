@@ -27,11 +27,10 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-
+    if (newName.trim(' ').length === 0) return
+    if (newNumber.trim(' ').length === 0) return
     if (validateName() !== undefined) {
-      alert(`${newName} is already added to phonebook`)
-      setNewName('')
-      setNewNumber('')
+      updateContact(event)
       return
     }
 
@@ -58,8 +57,8 @@ const App = () => {
     const deleteContact = window.confirm(message)
 
     if (deleteContact) {
-      const [contact]  = getContactId(event)
-      const {id} = contact
+      const [contact] = getContactId(event)
+      const { id } = contact
 
       contactService
         .remove(id)
@@ -71,6 +70,41 @@ const App = () => {
         .catch(err => {
           console.error('Error on removing contact')
         })
+
+      setNewName('')
+      setNewNumber('')
+      return
+    }
+  }
+
+  const updateContact = () => {
+    const message = `${newName} is already added to phonebook,
+      replace the old number with a new one?`
+    const updateNumber = window.confirm(message)
+
+    if (updateNumber) {
+      const [contact] = getContactId(newName)
+      const { id } = contact
+
+      const personObject = {
+        name: newName,
+        number: newNumber,
+        id
+      }
+
+      contactService
+        .update(personObject)
+        .then(response => {
+          setPersons(persons
+            .map(person => person.name === response.name ? response : person))
+        })
+        .catch(err => {
+          console.error('Error on updating contact')
+        })
+
+      setNewName('')
+      setNewNumber('')
+      return
     }
   }
 
