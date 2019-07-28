@@ -1,4 +1,5 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 const bodyParser = require('body-parser')
 const notes = require('./persons.json')
@@ -9,6 +10,14 @@ const countPersons = () => notes.persons.reduce(a => a + 1, 0)
 const isNameInContacts = (name) => notes.persons.find(n => n.name === name)
 
 app.use(bodyParser.json())
+
+morgan.token('contact', function getContact(req, res) {
+  if (req.body.name && req.body.number)
+    return JSON.stringify({ name: req.body.name, number: req.body.number })
+})
+
+const loggerFormat = ':method :url :status :res[content-length] - :response-time ms :contact'
+app.use(morgan(loggerFormat))
 
 app.get('/api/persons', (req, res) => {
   res.json(notes)
@@ -33,8 +42,10 @@ app.post('/api/persons', (req, res) => {
   let note = req.body
 
   if (!note.name || !note.number) res.status(400).end()
-  if (isNameInContacts(note.name))
-    res.status(400).send({ error: 'name must be unique' })
+  if (isNameInContacts(note.name)) {
+    res.status(400).json({ error: 'name must be unique' })
+    return
+  }
 
   note.id = Math.floor(Math.random() * RANDOM_RANGE)
   notes.persons = notes.persons.concat(note)
